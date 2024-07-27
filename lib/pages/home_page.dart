@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/recipe.dart';
 import '../services/data_service.dart';
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
               onPressed: () {
-                 setState(() {
+                setState(() {
                   _mealTypeFilter = "Breakfast";
                 });
               },
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
               onPressed: () {
-                 setState(() {
+                setState(() {
                   _mealTypeFilter = "Lunch";
                 });
               },
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
               onPressed: () {
-                 setState(() {
+                setState(() {
                   _mealTypeFilter = "Dinner";
                 });
               },
@@ -115,6 +116,12 @@ class _HomePageState extends State<HomePage> {
                     // create a variable of type Recipe
                     Recipes recipe = snaphot.data![index];
                     return ListTile(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return DetailPage(recipes: recipe);
+                        }));
+                      },
                       contentPadding: const EdgeInsets.only(top: 17.0),
                       isThreeLine: true,
                       title: Text(recipe.name),
