@@ -43,13 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _title() {
-    return const Text(
-      "Recipe Book",
-      style: TextStyle(
-        fontSize: 35.0,
-        fontWeight: FontWeight.bold,
-      ),
-    );
+    return Image.asset("images/Logo-Secret-Recipe.png");
   }
 
   Widget _login() {
@@ -101,11 +95,16 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.60,
       child: ElevatedButton(
-          onPressed: () async {
-            if (_loginFormKey.currentState?.validate() ?? false) {
-              _loginFormKey.currentState?.save();
-              bool result = await AuthService().login(username!, password!);
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.deepOrange,
+        ),
+        onPressed: () async {
+          if (_loginFormKey.currentState?.validate() ?? false) {
+            _loginFormKey.currentState?.save();
+            bool result = await AuthService().login(username!, password!);
+            if (mounted) {
               if (result) {
+                Navigator.pushReplacementNamed(context, '/home_page');
               } else {
                 StatusAlert.show(context,
                     duration: const Duration(seconds: 2),
@@ -115,8 +114,16 @@ class _LoginPageState extends State<LoginPage> {
                     maxWidth: 260);
               }
             }
-          },
-          child: const Text("Login")),
+          }
+        },
+        child: const Text(
+          "Login",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          ),
+        ),
+      ),
     );
   }
 }

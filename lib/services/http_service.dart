@@ -19,8 +19,12 @@ class HTTPService {
     final headers = {
       "Content-Type": "application/json",
     };
+
+    if (bearerToken != null) {
+      headers['Authorization'] = "Bearer $bearerToken";
+    }
     final options = BaseOptions(
-        baseUrl: API_BASE_URL,
+        baseUrl: apiBaseUrl,
         headers: headers,
         validateStatus: (status) {
           if (status == null) return false;
@@ -31,9 +35,24 @@ class HTTPService {
   }
 
   // function that send a post request to a specific endpoint
-  Future<Response?>post(String path, Map data) async{
+Future<Response?> post(String path, Map data) async {
+  try {
+    final response = await _dio.post(path, data: data);
+    return response;
+  } on DioException  catch (e) {
+    print('DioError: ${e.message}');
+    return null;
+  } catch (e) {
+    print('Unexpected error: $e');
+    return null;
+  }
+}
+
+
+  // function for get request
+  Future<Response?> get(String path) async {
     try {
-      final response = await _dio.post(path, data: data);
+      final response = await _dio.get(path);
       return response;
     } catch (e) {
       print(e);
